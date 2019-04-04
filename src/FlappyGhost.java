@@ -1,19 +1,34 @@
-package sample;
+
+
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class FlappyGhost extends Application {
+
+    int largeurScene = 640, hauteurScene = 400;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        VBox root = new VBox();
+        primaryStage.setTitle("Flappy Ghost");
+        primaryStage.setScene(new Scene(root, largeurScene, hauteurScene));
+
+
+        Image img = new Image("../bng.png");
+        ImageView imageView = new ImageView(img);
+        imageView.setFitHeight(hauteurScene);
+        imageView.setFitWidth(largeurScene);
+        root.getChildren().add(imageView);
         primaryStage.show();
+
+
     }
 
 
