@@ -1,0 +1,43 @@
+Design Flappy Ghost
+
+Modèle - Vue - Contrôleur
+
+Modèle : logique interne de l'application
+
+public class Player :
+    public void deplacer()
+
+public abstract class Obstacle :
+    public abstract void deplacer();
+
+public class ObstacleSimple extends Obstacle
+
+public class ObstacleSinus extends Obstacle
+
+public class ObstacleQuantum extends Obstacle
+
+
+Vue : défini ce qui doit être affiché, contient le main
+
+public class FlappyGhost :
+
+    // Attributs
+    Controleur controleur = new Controleur();;
+
+    // Méthodes
+    public static void main()
+Bouton
+Score
+Mode debug (à cocher)
+Arrière-plan
+
+Contrôleur : code qui relie les deux ensembles
+
+public class Controleur
+    // Attributs
+    FlappyGhost view = new FlappyGhost();
+
+    // Méthodes
+    cocher classe debug()
+    pause()
+    espace pour sauter()
