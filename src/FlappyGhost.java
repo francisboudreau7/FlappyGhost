@@ -41,6 +41,18 @@ public class FlappyGhost extends Application {
             BackgroundPosition.DEFAULT,
             new BackgroundSize(sceneWidth, bgHeight, false, false, false, false ));*/
     private Scene scene = createScene();
+    public int getSceneWidth() {
+        return sceneWidth;
+    }
+
+    public int getSceneHeight() {
+        return sceneHeight;
+    }
+
+    public int getBgHeight() {
+        return bgHeight;
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {

@@ -4,7 +4,7 @@ public class Player extends Entity {
     private int score;
 
 
-    public Player(int x, int y) {
+    public Player(double x, double y) {
         super(x, y, 150, 0, 0, 500, new Image("file:../ghost.png"), 30);
         this.score = 0;
     }
@@ -25,4 +25,11 @@ public class Player extends Entity {
     public void updateScore() {
         this.score += 5;
     }
-}
+
+    public int getScore () {
+            return this.score;
+    }
+
+
+    }
+

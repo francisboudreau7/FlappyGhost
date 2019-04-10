@@ -7,4 +7,30 @@ public abstract class Obstacle extends Entity {
 
 
     }
+
+    public Obstacle newObstacle() {
+        int choose = (int) Math.random() * 3;
+        Obstacle result = null;
+        double y = Math.random() * 400;
+        double x = 640 + 45; //TODO:Verifier si on peut aller chercher le background width.
+        switch (choose) {
+            case 0:
+                result = new ObstacleQuantum(x, y);
+                break;
+
+            case 1:
+                result = new ObstacleSimple(x, y);
+                break;
+
+            case 2:
+                result = new ObstacleSinus(x, y, 10);
+                break;
+        }
+
+        return result;
+    }
 }
+
+
+
+

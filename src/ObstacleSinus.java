@@ -8,9 +8,9 @@ public class ObstacleSinus extends Obstacle {
     ;
 
     @Override
-    public void update(double dt) {//TODO vérifier
+    public void update(double dt) {//TODO: peut etre vy en fonction de vx;
         double y = getY();
-        y += amplitude * Math.sin(getVy() * System.nanoTime());
+        y += amplitude * Math.sin(getVy()* dt*2*Math.PI);
         setY(y);
 
     }
