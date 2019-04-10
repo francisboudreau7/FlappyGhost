@@ -26,12 +26,27 @@ public class FlappyGhost extends Application {
 
     // Attributs
     private int sceneWidth = 640;
+
+
+
     private int sceneHeight = 440;
     private int bgHeight = 400;
     private String title = "Flappy Ghost";
     private String pause = "Pause";
     private String debug = "Mode debug";
     private String score = "Score: ";
+
+    public int getSceneWidth() {
+        return sceneWidth;
+    }
+
+    public int getSceneHeight() {
+        return sceneHeight;
+    }
+
+    public int getBgHeight() {
+        return bgHeight;
+    }
 
 
     @Override

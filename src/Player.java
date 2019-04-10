@@ -24,10 +24,12 @@ public class Player extends Entity {
 
     public void updateScore() {
         this.score += 5;
+    }
 
-
-        public int getScore () {
+    public int getScore () {
             return this.score;
-        }
+    }
+
+
     }
 
