@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 
 public class FlappyGhost extends Application {
 
+    private Controller controller = new Controller();
+
     // Attributs
     private int sceneWidth = 640;
     private int sceneHeight = 440;
@@ -33,21 +35,36 @@ public class FlappyGhost extends Application {
     private String debug = "Mode debug";
     private String score = "Score: ";
 
+    private Image img = new Image("file:bg.png");
+    ImageView bg = new ImageView();
+    /*private BackgroundImage bgImg = new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            new BackgroundSize(sceneWidth, bgHeight, false, false, false, false ));*/
+    private Scene scene = createScene();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+
+        primaryStage.setTitle(title);
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        AnimationTimer timer = createTimer();
+        timer.start();
+    }
+
+    private Scene createScene() {
         VBox root = new VBox();
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
 
-        Image img = new Image("file:bg.png");
-        BackgroundImage bgImg = new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT,
-                new BackgroundSize(sceneWidth, bgHeight, false, false, false, false ));
-        root.setBackground(new Background(bgImg));
 
+        bg.setImage(img);
         Canvas canvas = new Canvas(sceneWidth, bgHeight);
-        root.getChildren().add(canvas);
 
+        StackPane stackPane = new StackPane(canvas, bg);
+        root.getChildren().add(stackPane);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
         root.getChildren().add(new Separator());
@@ -75,14 +92,7 @@ public class FlappyGhost extends Application {
 
         root.getChildren().add(menu);
 
-
-        primaryStage.setTitle(title);
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
-        AnimationTimer timer = createTimer();
-        timer.start();
+        return scene;
     }
 
     private AnimationTimer createTimer() {
@@ -102,6 +112,12 @@ public class FlappyGhost extends Application {
             }
         };
     }
+
+    public void moveBg() {
+        double bgX = bg.getX();
+        bg.setX(bgX - speed);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
