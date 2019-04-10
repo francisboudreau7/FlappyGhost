@@ -1,6 +1,8 @@
 
 
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -71,16 +73,35 @@ public class FlappyGhost extends Application {
         menu.getChildren().add(rightScore);
         menu.setAlignment(Pos.CENTER);
 
-
         root.getChildren().add(menu);
+
 
         primaryStage.setTitle(title);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
+        AnimationTimer timer = createTimer();
+        timer.start();
     }
 
+    private AnimationTimer createTimer() {
 
+        return new AnimationTimer() {
+            private long lastTime = 0;
+
+            @Override
+            public void start() {
+                lastTime = System.nanoTime();
+                super.start();
+            }
+
+            @Override
+            public void handle(long now) {
+                double deltaTime = (now - lastTime) * 1e-9; // en secondes
+            }
+        };
+    }
     public static void main(String[] args) {
         launch(args);
     }
