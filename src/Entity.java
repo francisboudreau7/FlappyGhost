@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 
 public abstract class Entity {
@@ -18,28 +19,35 @@ public abstract class Entity {
         this.r = r;
     }
 
-    public void update(double dt) {
-        vx += dt * ax;
+
+
+    public void update(double dt){
         vy += dt * ay;
 
-        x += dt * vx;
+
         y += dt * vy;
+
+
 
         if (vy > 300) {
             vy = 300;
         }
 
         if (vy < -300) {
-            vy = 300;
+            vy = -300;
+        }
+        System.out.println(y+"   "+ (y-r*2));
+        if((y + r*2 )> FlappyGhost.BGHEIGHT || y < 0) {
+            if((y - r*2 ) < 0){
+                System.out.println("trou");
+            }
+
+            vy*=-1;
+
         }
 
-//        x = Math.min(x, JavaFXBall.WIDTH - getW() / 2);
-//        x = Math.max(x, getW() / 2);
-//
-//        y = Math.min(y, JavaFXBall.HEIGHT - getH() / 2);
-//        y = Math.max(y, getH() / 2);
-//TODO
-        //Ajuster selon les grandeurs de la fenetre
+        y= Math.min(y,FlappyGhost.BGHEIGHT-r*2);
+        y= Math.max(y,0);
     }
 
     public Boolean intersects(Entity other) {
@@ -97,5 +105,13 @@ public abstract class Entity {
 
     public void setAy(double ay) {
         this.ay = ay;
+    }
+
+    public Image getImg() {
+        return this.img;
+    }
+
+    public int getR() {
+        return r;
     }
 }

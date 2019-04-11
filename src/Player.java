@@ -5,12 +5,12 @@ public class Player extends Entity {
 
 
     public Player(double x, double y) {
-        super(x, y, 150, 0, 0, 500, new Image("file:../ghost.png"), 30);
+        super(x, y, 150, 0, 0, 500, new Image("img/ghost.png", 60, 60, false, false), 30);
         this.score = 0;
     }
 
     public void jump() {
-        this.setVx(300);
+        this.setVy(-300);
 
     }
 
