@@ -128,15 +128,7 @@ public class FlappyGhost extends Application {
             canvas.requestFocus();
         });
 
-               scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                   @Override
-
-                    public void handle(KeyEvent event) {
-                        if ((event.getCode()) == KeyCode.SPACE) {
-                            ghost.jump();
-                        }
-                   }
-               });
+        controller.handleSpace(scene);
 
 
     }

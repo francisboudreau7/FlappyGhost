@@ -36,17 +36,17 @@ public class Controller {
 
     }
 
-  //  public void handleSpace(Scene scene) {
+    public void handleSpace(Scene scene) {
 
-   //     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-   //         @Override
-    //        public void handle(KeyEvent event) {
-    //            if ((event.getCode()) == KeyCode.SPACE) {
-    //                ghost.jump();
-    //            }
-     //       }
-     //   });
-
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if ((event.getCode()) == KeyCode.SPACE) {
+                    ghost.jump();
+                }
+            }
+        });
+    }
 
     }
 
