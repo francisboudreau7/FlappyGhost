@@ -1,6 +1,4 @@
 public class ObstacleSinus extends Obstacle {
-    private final int amplitude = 25;
-    private final double frequencyCoefficient = 0.05;
     private double initY;
 
     public ObstacleSinus(double x, double y, double ghostSpeed) {
@@ -8,11 +6,11 @@ public class ObstacleSinus extends Obstacle {
         initY = y;
     }
 
-    ;
-
     @Override
-    public void update(double dt) {//TODO: peut etre vy en fonction de vx;
+    public void update(double dt) {
         setX(getX() + dt * getVx());
+        double frequencyCoefficient = 0.05;
+        int amplitude = 25;
         setY(amplitude * Math.sin(frequencyCoefficient * getX() - dt) + initY);
 
 

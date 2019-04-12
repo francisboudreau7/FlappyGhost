@@ -1,5 +1,6 @@
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Circle;
 
 public abstract class Entity {
     private double x, y;
@@ -7,6 +8,8 @@ public abstract class Entity {
     private double ax, ay;
     private Image img;
     private int r;
+    private Boolean Intersected = false;//True when the Entity is currently intersected by another Entity.
+
 
     public Entity(double x, double y, double vx, double vy, double ax, double ay, Image img, int r) {
         this.x = x;
@@ -17,6 +20,8 @@ public abstract class Entity {
         this.ay = ay;
         this.img = img;
         this.r = r;
+
+
     }
 
 
@@ -85,5 +90,13 @@ public abstract class Entity {
 
     public int getR() {
         return r;
+    }
+
+    public Boolean isIntersected() {
+        return Intersected;
+    }
+
+    public void setIntersected(Boolean intersected) {
+        Intersected = intersected;
     }
 }

@@ -1,18 +1,13 @@
 
 
 
-import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotResult;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -20,8 +15,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -30,7 +23,9 @@ import javafx.stage.Stage;
 public class FlappyGhost extends Application {
 
     // Attributs
-    public static final int SCENEWIDTH = 640, SCENEHEIGHT = 440, BGHEIGHT = 400;
+    public static final int SCENEWIDTH = 640;
+    private static final int SCENEHEIGHT = 440;
+    public static final int BGHEIGHT = 400;
     private String title = "Flappy Ghost";
     private String pause = "Pause";
     private String debug = "Mode debug";
@@ -42,7 +37,7 @@ public class FlappyGhost extends Application {
     private Controller controller;
     private Player ghost;
 
-    private boolean modeDebug = false;
+    private boolean modeDebug;
 
     /*private BackgroundImage bgImg = new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT,
@@ -105,12 +100,13 @@ public class FlappyGhost extends Application {
 
             @Override
             public void handle(long now) {
+                modeDebug = centerCheckBox.isSelected();
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, SCENEWIDTH, BGHEIGHT);
-
                 controller.draw(ghost);
                 ghost.update(deltaTime);
                 controller.manageObstacles(deltaTime);
+                // controller.checkIfLost();
                 lastTime = now;
             }
         };

@@ -1,9 +1,13 @@
 import javafx.scene.image.Image;
 
 public abstract class Obstacle extends Entity {
+    private Boolean counted = false;
+
     public Obstacle(double x, double y, double vx, double vy, double ax, double ay) {
         super(x, y, vx, vy, ax, ay, new Image("img/" + (int) (Math.random() * 26) + ".png", 60, 60, false, false),
-                (int) Math.random() * 35 + 10);
+                (int) (Math.random() * 35) + 10);
+
+
 
 
     }
@@ -30,6 +34,14 @@ public abstract class Obstacle extends Entity {
         }
 
         return result;
+    }
+
+    public Boolean isCounted() {
+        return this.counted;
+    }
+
+    public void setCounted() {
+        this.counted = true;
     }
 }
 
