@@ -14,6 +14,33 @@ public class Player extends Entity {
 
     }
 
+    @Override
+    public void update(double dt) {
+        {
+            setVy(getVy() + dt * getAy());
+
+
+            setY(getY() + dt * getVy());
+
+
+            if (getVy() > 300) {
+                setVy(300);
+            }
+
+            if (getVy() < -300) {
+                setVy(-300);
+            }
+            if ((getY() + getR() * 2) > FlappyGhost.BGHEIGHT || getY() < 0) {
+
+                setVy(getVy() * -1);
+            }
+
+            setY(Math.min(getY(), FlappyGhost.BGHEIGHT - getR() * 2));
+            setY(Math.max(getY(), 0));
+
+        }
+    }
+
     public void addVX() {
         this.setVx(this.getVx() + 15);
     }

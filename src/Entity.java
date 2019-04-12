@@ -20,35 +20,7 @@ public abstract class Entity {
     }
 
 
-
-    public void update(double dt){
-        vy += dt * ay;
-
-
-        y += dt * vy;
-
-
-
-        if (vy > 300) {
-            vy = 300;
-        }
-
-        if (vy < -300) {
-            vy = -300;
-        }
-        System.out.println(y+"   "+ (y-r*2));
-        if((y + r*2 )> FlappyGhost.BGHEIGHT || y < 0) {
-            if((y - r*2 ) < 0){
-                System.out.println("trou");
-            }
-
-            vy*=-1;
-
-        }
-
-        y= Math.min(y,FlappyGhost.BGHEIGHT-r*2);
-        y= Math.max(y,0);
-    }
+    public abstract void update(double dt);
 
     public Boolean intersects(Entity other) {
         double dx = this.x - other.x;

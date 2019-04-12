@@ -110,7 +110,7 @@ public class FlappyGhost extends Application {
 
                 controller.draw(ghost);
                 ghost.update(deltaTime);
-
+                controller.manageObstacles(deltaTime);
                 lastTime = now;
             }
         };
