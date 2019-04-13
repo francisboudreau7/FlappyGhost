@@ -113,12 +113,15 @@ public class Controller {
             if (pause.isSelected()) {
                 try {
                     view.getTimer().stop();
+                    pause.setText("Resume");
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
                     view.getTimer().start();
+                    pause.setText("Pause");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -137,9 +140,14 @@ public class Controller {
             } else {
                 view.setModeDebug(false);
             }
-            // Pour ne pas que la barre d'espace active le bouton.
             Platform.runLater(() -> {
+                // Pour ne pas que la barre d'espace active le bouton.
                 view.getCanvas().requestFocus();
+
+                // Pour que l'affichage soit mis à jour même quand le jeu est sur pause.
+                view.getContext().clearRect(0, 0, FlappyGhost.SCENEWIDTH, FlappyGhost.BGHEIGHT);
+                draw(ghost);
+                manageObstacles(0);
             });
         });
 

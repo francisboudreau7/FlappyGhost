@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -35,9 +36,6 @@ public class FlappyGhost extends Application {
     CheckBox centerCheckBox = new CheckBox("Mode debug");
     Text rightScore = new Text("Score:   ");
     Image icon = new Image("/img/ghost.png");
-
-
-    // private Stage stage = new Stage();
 
     private Background background;
     private Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
@@ -175,6 +173,10 @@ public class FlappyGhost extends Application {
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public CheckBox getCheckBox() {
+        return centerCheckBox;
     }
 
     // public Stage getStage() {
