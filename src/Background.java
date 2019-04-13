@@ -9,6 +9,7 @@ public class Background {
     private Player ghost;
     private Image img1 = new Image("img/bg.png");
     private Image img2 = new Image("img/bg.png");
+    private double initX;
 
     private ImageView bg1 = new ImageView(img1);
     private ImageView bg2 = new ImageView(img2);
@@ -17,6 +18,7 @@ public class Background {
         this.bgHeight = bgHeight;
         this.bgWidth = bgWidth;
         bg2.setX(bgWidth);
+        initX = bgWidth;
     }
 
     public ImageView getBg1() {
@@ -38,6 +40,10 @@ public class Background {
         if (bg2.getX() <= speed) {
             bg1.setX(bg2.getX() + bgWidth);
         }
+    }
+
+    public double getInitX() {
+        return this.initX;
     }
 
 }

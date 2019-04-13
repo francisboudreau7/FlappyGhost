@@ -68,5 +68,9 @@ public class Player extends Entity {
     public Paint getColor() {
         return color;
     }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }
 

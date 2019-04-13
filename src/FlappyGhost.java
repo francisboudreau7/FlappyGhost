@@ -34,7 +34,7 @@ public class FlappyGhost extends Application {
     private String title = "Flappy Ghost";
     ToggleButton leftPause = new ToggleButton("Pause");
     CheckBox centerCheckBox = new CheckBox("Mode debug");
-    Text rightScore = new Text("Score:   ");
+    private Text rightScore = new Text("Score: 0   ");
     Image icon = new Image("/img/ghost.png");
 
     private Background background;
@@ -107,7 +107,7 @@ public class FlappyGhost extends Application {
                 controller.manageObstacles(deltaTime);
                 background.moveBg(ghost.getSpeedFrame());
 
-                // controller.checkIfLost();
+                controller.checkIfLost();
                 lastTime = now;
             }
 
@@ -132,7 +132,7 @@ public class FlappyGhost extends Application {
         });
 
 
-        controller.handleSpace(scene);
+        controller.handleKeyboard(scene);
         controller.handlePause(leftPause);
         controller.handleDebug(centerCheckBox);
 

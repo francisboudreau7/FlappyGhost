@@ -19,6 +19,8 @@ public class Controller {
     private static double time;
     private ArrayList<Obstacle> ObstacleList;
     private Background background;
+    Boolean restarting = false;
+
 
     public Controller(FlappyGhost view) {
         this.view = view;
@@ -55,56 +57,63 @@ public class Controller {
 
     public void manageObstacles(double dt) {//
         time += dt;
-
-        if (((long) time) % 3 == 0 && ((long) (time - dt)) % 3 != 0) {//Adds obstacles each 3 seconds
-            ObstacleList.add(Obstacle.newObstacle(-ghost.getVx()));
-        }
-
-        for (int i = 0; i < ObstacleList.size(); i++) {//Iterates through each obstacle
-            ObstacleList.get(i).update(dt, -ghost.getVx());
-            draw(ObstacleList.get(i));
-
-            Boolean intersection = ghost.intersects(ObstacleList.get(i));//checks if intersected and changes
-            // intersected attribute
-            ghost.setIntersected(intersection);
-            ObstacleList.get(i).setIntersected(intersection);
-            if (ghost.isIntersected()) {
-                this.restart();
+        if (!restarting) {
+            if (((long) time) % 3 == 0 && ((long) (time - dt)) % 3 != 0) {//Adds obstacles each 3 seconds
+                ObstacleList.add(Obstacle.newObstacle(-ghost.getVx()));
             }
 
-            if (ghost.getX() > ObstacleList.get(i).getX() && !ObstacleList.get(i).isCounted()) {//Updates score if
-                // obstacles hasn't been counted
-                ghost.updateScore();
-                view.getRightScore().setText("Score: " + ghost.getScore());
-                ObstacleList.get(i).setCounted();
+            for (int i = 0; i < ObstacleList.size(); i++) {//Iterates through each obstacle
+                ObstacleList.get(i).update(dt, -ghost.getVx());
+                draw(ObstacleList.get(i));
+
+                Boolean intersection = ghost.intersects(ObstacleList.get(i));//checks if intersected and changes
+                // intersected attribute
+                ghost.setIntersected(intersection);
+                ObstacleList.get(i).setIntersected(intersection);
 
 
-                System.out.println(ghost.getScore());
-                if (ghost.getScore() % 10 == 0) {//If 2 obstacles have been passed,increments gravity and speed
-                    ghost.addAY();
-                    ghost.addVX();
+                if (ghost.getX() > ObstacleList.get(i).getX() && !ObstacleList.get(i).isCounted()) {//Updates score if
+                    // obstacles hasn't been counted
+                    ghost.updateScore();
+                    view.getRightScore().setText("Score: " + ghost.getScore());
+                    ObstacleList.get(i).setCounted();
+
+
+                    System.out.println(ghost.getScore());
+                    if (ghost.getScore() % 10 == 0) {//If 2 obstacles have been passed,increments gravity and speed
+                        ghost.addAY();
+                        ghost.addVX();
+                    }
                 }
-            }
-            if (ObstacleList.get(i).getX() + 100 < 0) {//If obstacle is out of frame(left), removes the obstacle.
-                ObstacleList.remove(i);
-            }
-        }
+                if (ObstacleList.get(i).getX() + 100 < 0) {//If obstacle is out of frame(left), removes the obstacle.
+                    ObstacleList.remove(i);
+                }
 
+
+            }
+
+        } else {
+        }
 
     }
-    // public void checkIfLost(){
-    //    if(ghost.isIntersected()){
-    //         restart();
-    //     }
-    // }
+
+    public void checkIfLost() {
+        if (ghost.isIntersected()) {
+            restart();
+        }
+    }
 
 
-    public void handleSpace(Scene scene) {//add keyboard input functionnality
+    public void handleKeyboard(Scene scene) {//add keyboard input functionnality
 
         scene.setOnKeyPressed(event -> {
             if ((event.getCode()) == KeyCode.SPACE) {
                 ghost.jump();
             }
+            if ((event.getCode()) == KeyCode.ESCAPE) {
+                System.exit(0);
+            }
+
         });
     }
 
@@ -153,9 +162,24 @@ public class Controller {
 
     }
 
-    public void restart() {//TODO:Broken. Il faut le faire dune autre manière.
+    public void restart() {
 
-        try {
+
+        restarting = true;
+        ghost.setScore(0);
+        view.getRightScore().setText("Score: 0   ");
+        ghost.setVy(0);
+        ghost.setVx(150);
+        ghost.setX(FlappyGhost.SCENEWIDTH / 2.0);
+        ghost.setY(FlappyGhost.BGHEIGHT / 2.0);
+        ghost.setAy(500);
+        background.getBg1().setX(0);
+        background.getBg2().setX(background.getInitX());
+
+        ObstacleList = new ArrayList<>();
+        restarting = false;
+
+        //try {
             //view.getStage().close();
             // view.getStage().close();
 
@@ -166,9 +190,11 @@ public class Controller {
             //        e.printStackTrace();
             //     }
             //  });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //  } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+
     }
 
 
