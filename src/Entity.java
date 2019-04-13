@@ -1,10 +1,11 @@
 import javafx.application.Platform;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public abstract class Entity {
     private double x, y;
-    private double vx, vy;
+    private double vx, vy; // Speed per second
     private double ax, ay;
     private Image img;
     private int r;
@@ -23,9 +24,6 @@ public abstract class Entity {
 
 
     }
-
-
-    public abstract void update(double dt);
 
     public Boolean intersects(Entity other) {
         double dx = this.x - other.x;
@@ -99,4 +97,7 @@ public abstract class Entity {
     public void setIntersected(Boolean intersected) {
         Intersected = intersected;
     }
+
+    public abstract Paint getColor();
+
 }

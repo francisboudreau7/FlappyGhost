@@ -7,12 +7,13 @@ public class ObstacleSinus extends Obstacle {
     }
 
     @Override
-    public void update(double dt) {
+    public void update(double dt, double ghostSpeed) {
+
+        setVx(ghostSpeed);
         setX(getX() + dt * getVx());
         double frequencyCoefficient = 0.05;
         int amplitude = 25;
         setY(amplitude * Math.sin(frequencyCoefficient * getX() - dt) + initY);
-
 
     }
 }

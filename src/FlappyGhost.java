@@ -2,6 +2,7 @@
 
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Orientation;
@@ -13,11 +14,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class FlappyGhost extends Application {
@@ -27,12 +31,19 @@ public class FlappyGhost extends Application {
     private static final int SCENEHEIGHT = 440;
     public static final int BGHEIGHT = 400;
     private String title = "Flappy Ghost";
-    private String pause = "Pause";
-    private String debug = "Mode debug";
-    private String score = "Score: ";
+    ToggleButton leftPause = new ToggleButton("Pause");
+    CheckBox centerCheckBox = new CheckBox("Mode debug");
+    Text rightScore = new Text("Score:   ");
+    Image icon = new Image("/img/ghost.png");
 
+
+    // private Stage stage = new Stage();
+
+    private Background background;
     private Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
     private GraphicsContext context = canvas.getGraphicsContext2D();
+
+    private AnimationTimer timer;
 
     private Controller controller;
     private Player ghost;
@@ -43,32 +54,15 @@ public class FlappyGhost extends Application {
             BackgroundPosition.DEFAULT,
             new BackgroundSize(sceneWidth, bgHeight, false, false, false, false ));*/
 
-
-
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Image img = new Image("img/bg.png");
-        ImageView bg = new ImageView();
+        //Image img = new Image("img/bg.png");
+        //ImageView bg = new ImageView(img);
 
         VBox root = new VBox();
         Scene scene = new Scene(root, SCENEWIDTH, SCENEHEIGHT);
-
-        bg.setImage(img);
-
-        StackPane stackPane = new StackPane(bg, canvas);
-        root.getChildren().add(stackPane);
-
-
-        root.getChildren().add(new Separator());
-
         HBox menu = new HBox();
-        Button leftPause = new Button(pause);
-        //leftPause.setStyle("-fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color; ");
-        CheckBox centerCheckBox = new CheckBox(debug);
-        Text rightScore = new Text(score);
 
         Separator sep1 = new Separator(Orientation.VERTICAL);
         sep1.setValignment(VPos.CENTER);
@@ -85,11 +79,18 @@ public class FlappyGhost extends Application {
         menu.getChildren().add(rightScore);
         menu.setAlignment(Pos.CENTER);
 
-        root.getChildren().add(menu);
+        //root.getChildren().add(menu);
+        // Instanciation de controller
         controller = new Controller(this);
         ghost = controller.getGhost();
+        background = controller.getBackground();
 
-        AnimationTimer timer = new AnimationTimer() {
+        Pane pane = new Pane(background.getBg1(), background.getBg2(), canvas);
+        root.getChildren().add(pane);
+        root.getChildren().add(new Separator());
+        root.getChildren().add(menu);
+
+        timer = new AnimationTimer() {
             private long lastTime = 0;
 
             @Override
@@ -100,22 +101,30 @@ public class FlappyGhost extends Application {
 
             @Override
             public void handle(long now) {
-                modeDebug = centerCheckBox.isSelected();
+                // modeDebug = centerCheckBox.isSelected();
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, SCENEWIDTH, BGHEIGHT);
                 controller.draw(ghost);
                 ghost.update(deltaTime);
                 controller.manageObstacles(deltaTime);
+                background.moveBg(ghost.getSpeedFrame());
+
                 // controller.checkIfLost();
                 lastTime = now;
             }
+
         };
         timer.start();
+
+        //stage.initModality(Modality.WINDOW_MODAL);
+        // stage.initOwner(primaryStage);
+
 
         primaryStage.setTitle(title);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
+        primaryStage.getIcons().add(icon);
 
         Platform.runLater(() -> {
             canvas.requestFocus();
@@ -124,10 +133,15 @@ public class FlappyGhost extends Application {
             canvas.requestFocus();
         });
 
+
         controller.handleSpace(scene);
+        controller.handlePause(leftPause);
+        controller.handleDebug(centerCheckBox);
+
 
 
     }
+
 
     public GraphicsContext getContext() {
         return context;
@@ -151,10 +165,19 @@ public class FlappyGhost extends Application {
         launch(args);
     }
 
+    public Text getRightScore() {
+        return rightScore;
+    }
 
+    public AnimationTimer getTimer() {
+        return timer;
+    }
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
 
-
-
-
+    // public Stage getStage() {
+    //      return stage;
+    //   }
 }

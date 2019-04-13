@@ -1,7 +1,11 @@
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class Player extends Entity {
     private int score;
+    private double speedFrame; // Speed per frame
+    private Paint color = Color.BLACK;
 
 
     public Player(double x, double y) {
@@ -14,31 +18,27 @@ public class Player extends Entity {
 
     }
 
-    @Override
     public void update(double dt) {
-        {
-            setVy(getVy() + dt * getAy());
 
+        setSpeedFrame(getVx() * dt);
+        setVy(getVy() + dt * getAy());
+        setY(getY() + dt * getVy());
 
-            setY(getY() + dt * getVy());
-
-
-            if (getVy() > 300) {
-                setVy(300);
-            }
-
-            if (getVy() < -300) {
-                setVy(-300);
-            }
-            if ((getY() + getR() * 2) > FlappyGhost.BGHEIGHT || getY() < 0) {
-
-                setVy(getVy() * -1);
-            }
-
-            setY(Math.min(getY(), FlappyGhost.BGHEIGHT - getR() * 2));
-            setY(Math.max(getY(), 0));
-
+        if (getVy() > 300) {
+            setVy(300);
         }
+
+        if (getVy() < -300) {
+            setVy(-300);
+        }
+
+        if ((getY() + getR() * 2) > FlappyGhost.BGHEIGHT || getY() < 0) {
+            setVy(getVy() * -1);
+        }
+
+        setY(Math.min(getY(), FlappyGhost.BGHEIGHT - getR() * 2));
+        setY(Math.max(getY(), 0));
+
     }
 
     public void addVX() {
@@ -57,6 +57,16 @@ public class Player extends Entity {
             return this.score;
     }
 
-
+    public double getSpeedFrame() {
+        return speedFrame;
     }
+
+    public void setSpeedFrame(double speedFrame) {
+        this.speedFrame = speedFrame;
+    }
+
+    public Paint getColor() {
+        return color;
+    }
+}
 

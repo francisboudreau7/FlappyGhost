@@ -1,8 +1,13 @@
+import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -13,11 +18,13 @@ public class Controller {
     private Player ghost;
     private static double time;
     private ArrayList<Obstacle> ObstacleList;
+    private Background background;
 
     public Controller(FlappyGhost view) {
         this.view = view;
         this.ghost = new Player(FlappyGhost.SCENEWIDTH / 2 - 30, FlappyGhost.BGHEIGHT / 2);
         ObstacleList = new ArrayList<>();
+        background = new Background(FlappyGhost.BGHEIGHT, FlappyGhost.SCENEWIDTH);
     }
 
     public Player getGhost() {
@@ -26,14 +33,13 @@ public class Controller {
 
     public void draw(Entity entity) {//Universal entity drawing method
         if (view.isModeDebug()) {
-
-            if (entity.isIntersected()) {
+            if (entity instanceof Obstacle && entity.isIntersected()) {
                 view.getContext().setFill(Color.RED);
+                view.getContext().fillOval(entity.getX(), entity.getY(), entity.getR() * 2, entity.getR() * 2);
             } else {
-                view.getContext().setFill(Color.YELLOW);
+                view.getContext().setFill(entity.getColor());
+                view.getContext().fillOval(entity.getX(), entity.getY(), entity.getR() * 2, entity.getR() * 2);
             }
-
-            view.getContext().fillOval(entity.getX(), entity.getY(), entity.getR() * 2, entity.getR() * 2);
         } else {
             view.getContext().drawImage(entity.getImg(), entity.getX(), entity.getY());
         }
@@ -41,6 +47,10 @@ public class Controller {
 
     public static double getTime() {
         return time;
+    }
+
+    public Background getBackground() {
+        return this.background;
     }
 
     public void manageObstacles(double dt) {//
@@ -51,18 +61,24 @@ public class Controller {
         }
 
         for (int i = 0; i < ObstacleList.size(); i++) {//Iterates through each obstacle
-            ObstacleList.get(i).update(dt);
+            ObstacleList.get(i).update(dt, -ghost.getVx());
             draw(ObstacleList.get(i));
 
             Boolean intersection = ghost.intersects(ObstacleList.get(i));//checks if intersected and changes
             // intersected attribute
             ghost.setIntersected(intersection);
             ObstacleList.get(i).setIntersected(intersection);
+            if (ghost.isIntersected()) {
+                this.restart();
+            }
 
             if (ghost.getX() > ObstacleList.get(i).getX() && !ObstacleList.get(i).isCounted()) {//Updates score if
                 // obstacles hasn't been counted
                 ghost.updateScore();
+                view.getRightScore().setText("Score: " + ghost.getScore());
                 ObstacleList.get(i).setCounted();
+
+
                 System.out.println(ghost.getScore());
                 if (ghost.getScore() % 10 == 0) {//If 2 obstacles have been passed,increments gravity and speed
                     ghost.addAY();
@@ -92,12 +108,62 @@ public class Controller {
         });
     }
 
-    // public void restart(){//TODO:Broken. Il faut le faire dune autre manière.
-    //     ObstacleList= new ArrayList<>();
-    //     ghost = new Player(FlappyGhost.SCENEWIDTH / 2 - 30, FlappyGhost.BGHEIGHT / 2);
-    //  }
+    public void handlePause(ToggleButton pause) {
+        pause.setOnAction((event) -> {
+            if (pause.isSelected()) {
+                try {
+                    view.getTimer().stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    view.getTimer().start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // Pour ne pas que la barre d'espace active le bouton.
+            Platform.runLater(() -> {
+                view.getCanvas().requestFocus();
+            });
+        });
+    }
 
+    public void handleDebug(CheckBox debug) {
+        debug.setOnAction((event) -> {
+            if (debug.isSelected()) {
+                view.setModeDebug(true);
+            } else {
+                view.setModeDebug(false);
+            }
+            // Pour ne pas que la barre d'espace active le bouton.
+            Platform.runLater(() -> {
+                view.getCanvas().requestFocus();
+            });
+        });
 
     }
+
+    public void restart() {//TODO:Broken. Il faut le faire dune autre manière.
+
+        try {
+            //view.getStage().close();
+            // view.getStage().close();
+
+            //Platform.runLater( () -> {
+            //  try {
+            //        view.start(new Stage());
+            //    } catch (Exception e) {
+            //        e.printStackTrace();
+            //     }
+            //  });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}
 
 

@@ -1,15 +1,15 @@
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public abstract class Obstacle extends Entity {
+
     private Boolean counted = false;
+    private Paint color = Color.YELLOW;
 
     public Obstacle(double x, double y, double vx, double vy, double ax, double ay) {
         super(x, y, vx, vy, ax, ay, new Image("img/" + (int) (Math.random() * 26) + ".png", 60, 60, false, false),
                 (int) (Math.random() * 35) + 10);
-
-
-
-
     }
 
     public static Obstacle newObstacle(double ghostSpeed) {
@@ -36,12 +36,18 @@ public abstract class Obstacle extends Entity {
         return result;
     }
 
+    public abstract void update(double dt, double ghostSpeed);
+
     public Boolean isCounted() {
         return this.counted;
     }
 
     public void setCounted() {
         this.counted = true;
+    }
+
+    public Paint getColor() {
+        return color;
     }
 }
 

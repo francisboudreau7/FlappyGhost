@@ -7,7 +7,9 @@ public class ObstacleSimple extends Obstacle {
     }
 
     @Override
-    public void update(double dt) {
+    public void update(double dt, double ghostSpeed) {
+
+        setVx(ghostSpeed);
         setX(getX() + dt * getVx());
     }
 }
