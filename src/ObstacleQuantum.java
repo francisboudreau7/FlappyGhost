@@ -4,8 +4,8 @@ public class ObstacleQuantum extends Obstacle {
 
 
 
-    public ObstacleQuantum(double x, double y, double ghostSpeed) {
-        super(x, y, ghostSpeed, 0, 0, 0);
+    public ObstacleQuantum(double x, double y, double ghostSpeed,int radius, int number) {
+        super(x, y, ghostSpeed, 0, 0, 0,radius,number);
 
 
     }

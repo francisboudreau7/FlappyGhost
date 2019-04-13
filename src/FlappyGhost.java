@@ -19,10 +19,14 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.File;
 
 
 public class FlappyGhost extends Application {
@@ -36,6 +40,11 @@ public class FlappyGhost extends Application {
     CheckBox centerCheckBox = new CheckBox("Mode debug");
     private Text rightScore = new Text("Score: 0   ");
     Image icon = new Image("/img/ghost.png");
+
+    String musicFile = "The_Entertainer_-_1902_-_By_Scott_Joplin.ogg";     // For example
+
+    Media sound ;
+
 
     private Background background;
     private Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
@@ -57,6 +66,10 @@ public class FlappyGhost extends Application {
 
         //Image img = new Image("img/bg.png");
         //ImageView bg = new ImageView(img);
+
+
+
+
 
         VBox root = new VBox();
         Scene scene = new Scene(root, SCENEWIDTH, SCENEHEIGHT);
@@ -95,11 +108,13 @@ public class FlappyGhost extends Application {
             public void start() {
                 lastTime = System.nanoTime();
                 super.start();
+
             }
 
             @Override
             public void handle(long now) {
                 // modeDebug = centerCheckBox.isSelected();
+                controller.playMusic();
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, SCENEWIDTH, BGHEIGHT);
                 controller.draw(ghost);

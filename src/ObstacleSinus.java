@@ -1,8 +1,8 @@
 public class ObstacleSinus extends Obstacle {
     private double initY;
 
-    public ObstacleSinus(double x, double y, double ghostSpeed) {
-        super(x, y, ghostSpeed, 0, 0, 0);
+    public ObstacleSinus(double x, double y, double ghostSpeed,int radius, int number) {
+        super(x, y, ghostSpeed, 0, 0, 0,radius,number);
         initY = y;
     }
 
