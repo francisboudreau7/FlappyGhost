@@ -7,12 +7,12 @@ public class Background {
     public final int bgWidth;
 
     private Player ghost;
-    private Image img1 = new Image("img/bg.png");
-    private Image img2 = new Image("img/bg.png");
-    private double initX;
+    private final Image img1 = new Image("img/bg.png");
+    private final Image img2 = new Image("img/bg.png");
+    private final double initX;
 
-    private ImageView bg1 = new ImageView(img1);
-    private ImageView bg2 = new ImageView(img2);
+    private final ImageView bg1 = new ImageView(img1);
+    private final ImageView bg2 = new ImageView(img2);
 
     public Background(int bgHeight, int bgWidth) {
         this.bgHeight = bgHeight;

@@ -2,31 +2,21 @@
 
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.File;
 
 
 public class FlappyGhost extends Application {
@@ -35,20 +25,15 @@ public class FlappyGhost extends Application {
     public static final int SCENEWIDTH = 640;
     private static final int SCENEHEIGHT = 440;
     public static final int BGHEIGHT = 400;
-    private String title = "Flappy Ghost";
-    ToggleButton leftPause = new ToggleButton("Pause");
-    CheckBox centerCheckBox = new CheckBox("Mode debug");
-    private Text rightScore = new Text("Score: 0   ");
-    Image icon = new Image("/img/ghost.png");
-
-    String musicFile = "The_Entertainer_-_1902_-_By_Scott_Joplin.ogg";     // For example
-
-    Media sound ;
+    final ToggleButton leftPause = new ToggleButton("Pause");
+    final CheckBox centerCheckBox = new CheckBox("Mode debug");
+    private final Text rightScore = new Text("Score: 0   ");
+    final Image icon = new Image("/img/ghost.png");
 
 
     private Background background;
-    private Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
-    private GraphicsContext context = canvas.getGraphicsContext2D();
+    private final Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
+    private final GraphicsContext context = canvas.getGraphicsContext2D();
 
     private AnimationTimer timer;
 
@@ -66,9 +51,6 @@ public class FlappyGhost extends Application {
 
         //Image img = new Image("img/bg.png");
         //ImageView bg = new ImageView(img);
-
-
-
 
 
         VBox root = new VBox();
@@ -114,13 +96,13 @@ public class FlappyGhost extends Application {
             @Override
             public void handle(long now) {
                 // modeDebug = centerCheckBox.isSelected();
-                controller.playMusic();
+
                 double deltaTime = (now - lastTime) * 1e-9;
                 context.clearRect(0, 0, SCENEWIDTH, BGHEIGHT);
                 controller.draw(ghost);
                 ghost.update(deltaTime);
                 controller.manageObstacles(deltaTime);
-                background.moveBg(ghost.getSpeedFrame());
+                background.moveBg(ghost.getDisplacementPerFrame());
 
                 controller.checkIfLost();
                 lastTime = now;
@@ -133,6 +115,7 @@ public class FlappyGhost extends Application {
         // stage.initOwner(primaryStage);
 
 
+        String title = "Flappy Ghost";
         primaryStage.setTitle(title);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

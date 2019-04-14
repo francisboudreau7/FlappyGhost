@@ -1,29 +1,19 @@
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
-import java.io.File;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Controller {
 
-    private FlappyGhost view;
-    private Player ghost;
+    private final FlappyGhost view;
+    private final Player ghost;
     private static double time;
     private ArrayList<Obstacle> ObstacleList;
-    private Background background;
+    private final Background background;
     Boolean restarting = false;
-    Boolean musicPlayed=false;
 
 
     public Controller(FlappyGhost view) {
@@ -33,19 +23,6 @@ public class Controller {
         background = new Background(FlappyGhost.BGHEIGHT, FlappyGhost.SCENEWIDTH);
 
     }
-    public void playMusic(){
-        if (time > 1 && !musicPlayed) {
-            view.sound =
-                    new Media(new File("C:\\Users\\Francis\\Documents\\UDEM\\Programmation2\\TP3\\test.mp3").toURI().toString());
-
-            MediaPlayer mediaPlayer = new MediaPlayer(view.sound);
-
-            mediaPlayer.play();
-
-            musicPlayed=true;
-        }
-    }
-
     public Player getGhost() {
         return this.ghost;
     }
@@ -96,7 +73,7 @@ public class Controller {
                     ObstacleList.get(i).setCounted();
 
 
-                    System.out.println(ghost.getScore());
+
                     if (ghost.getScore() % 10 == 0) {//If 2 obstacles have been passed,increments gravity and speed
                         ghost.addAY();
                         ghost.addVX();
@@ -115,7 +92,7 @@ public class Controller {
     }
 
     public void checkIfLost() {
-        if (ghost.isIntersected()&&!view.isModeDebug()) {
+        if (ghost.isIntersected() && !view.isModeDebug()) {
             restart();
         }
     }
@@ -140,21 +117,21 @@ public class Controller {
         Obstacle result = null;
         double y = Math.random() * (FlappyGhost.BGHEIGHT - 70) + 35;
         double x = FlappyGhost.SCENEWIDTH + 45;
-        int number = (int) (Math.random()*26);
+        int number = (int) (Math.random() * 26);
         int radius = (int) (Math.random() * 35) + 10;
         switch (choose) {
             case 0:
-                result = new ObstacleQuantum(x, y, ghostSpeed,radius,number);
+                result = new ObstacleQuantum(x, y, ghostSpeed, radius, number);
                 break;
 
             case 1:
 
-                result = new ObstacleSimple(x, y, ghostSpeed,radius,number);
+                result = new ObstacleSimple(x, y, ghostSpeed, radius, number);
                 break;
 
             case 2:
 
-                result = new ObstacleSinus(x, y, ghostSpeed,radius,number);
+                result = new ObstacleSinus(x, y, ghostSpeed, radius, number);
                 break;
         }
 
@@ -210,13 +187,12 @@ public class Controller {
 
     public void restart() {
 
-
         restarting = true;
         ghost.setScore(0);
         view.getRightScore().setText("Score: 0   ");
         ghost.setVy(0);
         ghost.setVx(150);
-        ghost.setX(FlappyGhost.SCENEWIDTH / 2.0 -30);
+        ghost.setX(FlappyGhost.SCENEWIDTH / 2.0 - 30);
         ghost.setY(FlappyGhost.BGHEIGHT / 2.0);
         ghost.setAy(500);
         background.getBg1().setX(0);

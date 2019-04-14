@@ -1,12 +1,29 @@
+/**
+ * The type Obstacle sinus.
+ */
 public class ObstacleSinus extends Obstacle {
-    private double initY;
+    private final double initY;
 
-    public ObstacleSinus(double x, double y, double ghostSpeed,int radius, int number) {
-        super(x, y, ghostSpeed, 0, 0, 0,radius,number);
+    /**
+     * Instancie un nouvel obstacle sinus
+     *
+     * @param x          la position en x
+     * @param y          la position en y
+     * @param ghostSpeed la vitesse du fantome
+     * @param radius     le rayon
+     * @param number     le numero de l'image
+     */
+    public ObstacleSinus(double x, double y, double ghostSpeed, int radius, int number) {
+        super(x, y, ghostSpeed, 0, 0, radius, number);
         initY = y;
     }
 
-    @Override
+    /**
+     * Mets a jour l'objet
+     *
+     * @param dt         le temps écoulé depuis la dernière update
+     * @param ghostSpeed la vitesse du fantome
+     */
     public void update(double dt, double ghostSpeed) {
 
         setVx(ghostSpeed);

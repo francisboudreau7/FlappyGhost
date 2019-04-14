@@ -2,25 +2,42 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+/**
+ * The type Player.
+ */
 public class Player extends Entity {
     private int score;
-    private double speedFrame; // Speed per frame
-    private Paint color = Color.BLACK;
+    private double displacementPerFrame;
+    private final Paint color = Color.BLACK;
 
 
+    /**
+     * Instancie un nouveau objet Player
+     *
+     * @param x the x
+     * @param y the y
+     */
     public Player(double x, double y) {
-        super(x, y, 150, 0, 0, 500, new Image("img/ghost.png", 60, 60, false, false), 30);
+        super(x, y, 150, 0, 500, new Image("img/ghost.png", 60, 60, false, false), 30);
         this.score = 0;
     }
 
+    /**
+     *  Fais sauter le joueur
+     */
     public void jump() {
         this.setVy(-300);
 
     }
 
+    /**
+     * Met a jour l'objet
+     *
+     * @param dt  le temps depuis le dernier frame
+     */
     public void update(double dt) {
 
-        setSpeedFrame(getVx() * dt);
+        setDisplacementPerFrame(getVx() * dt);
         setVy(getVy() + dt * getAy());
         setY(getY() + dt * getVy());
 
@@ -41,34 +58,63 @@ public class Player extends Entity {
 
     }
 
+    /**
+     * Incremente la vitesse en x
+     */
     public void addVX() {
         this.setVx(this.getVx() + 15);
     }
 
+    /**
+     * Incremente l'acceleration
+     */
     public void addAY() {
         this.setAy(this.getAy() + 15);
     }
 
+    /**
+     * Incremente le score
+     */
     public void updateScore() {
         this.score += 5;
     }
 
+    /**
+     * Getter du score
+     *
+     * @return le score
+     */
     public int getScore () {
-            return this.score;
+        return this.score;
     }
 
-    public double getSpeedFrame() {
-        return speedFrame;
+    /**
+     * Getter du déplacement par frame
+     *
+     * @return déplacement par frames
+     */
+    public double getDisplacementPerFrame() {
+        return displacementPerFrame;
     }
 
-    public void setSpeedFrame(double speedFrame) {
-        this.speedFrame = speedFrame;
+    /**
+     * Setter du déplacement par frames
+     *
+     * @param displacementPerFrame déplacement par frames
+     */
+    public void setDisplacementPerFrame(double displacementPerFrame) {
+        this.displacementPerFrame = displacementPerFrame;
     }
 
     public Paint getColor() {
         return color;
     }
 
+    /**
+     * Setter du score
+     *
+     * @param score score
+     */
     public void setScore(int score) {
         this.score = score;
     }
