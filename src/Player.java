@@ -3,7 +3,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 /**
- * The type Player.
+ * Classe du joueur (le fantôme)
  */
 public class Player extends Entity {
     private int score;
@@ -17,8 +17,8 @@ public class Player extends Entity {
      * @param x the x
      * @param y the y
      */
-    public Player(double x, double y) {
-        super(x, y, 150, 0, 500, new Image("img/ghost.png", 60, 60, false, false), 30);
+    public Player(double x, double y, Controller controller) {
+        super(x, y, 150, 0, 500, new Image("img/ghost.png", 60, 60, false, false), 30, controller);
         this.score = 0;
     }
 
@@ -56,6 +56,13 @@ public class Player extends Entity {
         setY(Math.min(getY(), FlappyGhost.BGHEIGHT - getR() * 2));
         setY(Math.max(getY(), 0));
 
+    }
+
+    public void moreGravitySpeed() {
+        if (this.getScore() % 10 == 0) {//If 2 obstacles have been passed,increments gravity and speed
+            this.addAY();
+            this.addVX();
+        }
     }
 
     /**

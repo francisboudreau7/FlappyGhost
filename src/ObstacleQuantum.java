@@ -1,13 +1,12 @@
 /**
- * The type Obstacle quantum.
+ * Classe du type d'obstacle quantique
  */
 public class ObstacleQuantum extends Obstacle {
 
     /**
      * la dernière fois qu'il s'est téléporté
      */
-    double lastTimeTeleport;
-
+    private double lastTimeTeleport;
 
     /**
      * Instancie un nouvel obstacle quantique
@@ -17,11 +16,10 @@ public class ObstacleQuantum extends Obstacle {
      * @param ghostSpeed la vitesse du fantome
      * @param radius     le rayon
      * @param number     le numero de l'image
+     * @param controller la référence vers le contrôleur
      */
-    public ObstacleQuantum(double x, double y, double ghostSpeed, int radius, int number) {
-        super(x, y, ghostSpeed, 0, 0, radius, number);
-
-
+    public ObstacleQuantum(double x, double y, double ghostSpeed, int radius, int number, Controller controller) {
+        super(x, y, ghostSpeed, 0, 0, radius, number, controller);
     }
 
     /**
@@ -39,7 +37,6 @@ public class ObstacleQuantum extends Obstacle {
             setY(getY() + Math.random() * 60 - 30);
             lastTimeTeleport = Controller.getTime();
         }
-
-
     }
+
 }

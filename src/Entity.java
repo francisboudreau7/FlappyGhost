@@ -1,8 +1,9 @@
+import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 
 /**
- * The type Entity.
+ * Classe abstraite d'une entité
  */
 public abstract class Entity {
     private double x, y;
@@ -11,7 +12,7 @@ public abstract class Entity {
     private final Image img;
     private final int r;
     private Boolean Intersected = false;//True when the Entity is currently intersected by another Entity.
-
+    private static Controller controller;
 
     /**
      * Instancie une nouvelle Entity
@@ -23,8 +24,9 @@ public abstract class Entity {
      * @param ay  l'acceleration y
      * @param img l'image qui represente l'entite
      * @param r   le rayon
+     * @param controller référence vers le contrôleur
      */
-    public Entity(double x, double y, double vx, double vy, double ay, Image img, int r) {
+    public Entity(double x, double y, double vx, double vy, double ay, Image img, int r, Controller controller) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -32,8 +34,7 @@ public abstract class Entity {
         this.ay = ay;
         this.img = img;
         this.r = r;
-
-
+        Entity.controller = controller;
     }
 
     /**
@@ -48,6 +49,13 @@ public abstract class Entity {
         double d2 = dx * dx + dy * dy;
 
         return d2 < (this.r + other.r) * (this.r + other.r);
+    }
+
+    public static void entityIntersection(Obstacle obstacle, Player ghost) {
+        Boolean intersection = ghost.intersects(obstacle);//checks if intersected and changes
+        // intersected attribute
+        ghost.setIntersected(intersection);
+        obstacle.setIntersected(intersection);
     }
 
 
@@ -185,4 +193,12 @@ public abstract class Entity {
      */
     public abstract Paint getColor();
 
+    /**
+     * Getter de la référence vers le contrôleur
+     *
+     * @return référence vers le contrôleur
+     */
+    public static Controller getController() {
+        return controller;
+    }
 }

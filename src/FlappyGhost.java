@@ -1,5 +1,4 @@
-
-
+// Travail de Laura Bégin et Francis Boudreau
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -18,40 +17,37 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
+/**
+ * Classe de la vue (FlappyGhost)
+ */
 public class FlappyGhost extends Application {
 
-    // Attributs
     public static final int SCENEWIDTH = 640;
     private static final int SCENEHEIGHT = 440;
     public static final int BGHEIGHT = 400;
+
     final ToggleButton leftPause = new ToggleButton("Pause");
     final CheckBox centerCheckBox = new CheckBox("Mode debug");
     private final Text rightScore = new Text("Score: 0   ");
     final Image icon = new Image("/img/ghost.png");
-
-
     private Background background;
     private final Canvas canvas = new Canvas(SCENEWIDTH, BGHEIGHT);
     private final GraphicsContext context = canvas.getGraphicsContext2D();
 
     private AnimationTimer timer;
+    private boolean modeDebug;
 
     private Controller controller;
     private Player ghost;
 
-    private boolean modeDebug;
-
-    /*private BackgroundImage bgImg = new BackgroundImage(img, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT,
-            new BackgroundSize(sceneWidth, bgHeight, false, false, false, false ));*/
-
+    /**
+     * Méthode start de l'application, appelée pour démarrer le jeu
+     *
+     * @param primaryStage stage principal du jeu
+     * @throws Exception tout type d'exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        //Image img = new Image("img/bg.png");
-        //ImageView bg = new ImageView(img);
-
 
         VBox root = new VBox();
         Scene scene = new Scene(root, SCENEWIDTH, SCENEHEIGHT);
@@ -72,8 +68,7 @@ public class FlappyGhost extends Application {
         menu.getChildren().add(rightScore);
         menu.setAlignment(Pos.CENTER);
 
-        //root.getChildren().add(menu);
-        // Instanciation de controller
+        // Instanciation du contrôler
         controller = new Controller(this);
         ghost = controller.getGhost();
         background = controller.getBackground();
@@ -83,6 +78,7 @@ public class FlappyGhost extends Application {
         root.getChildren().add(new Separator());
         root.getChildren().add(menu);
 
+        // Animation du jeu
         timer = new AnimationTimer() {
             private long lastTime = 0;
 
@@ -90,16 +86,16 @@ public class FlappyGhost extends Application {
             public void start() {
                 lastTime = System.nanoTime();
                 super.start();
-
             }
 
+            // Méthode appelée à chaque frame
             @Override
             public void handle(long now) {
-                // modeDebug = centerCheckBox.isSelected();
-
                 double deltaTime = (now - lastTime) * 1e-9;
+
                 context.clearRect(0, 0, SCENEWIDTH, BGHEIGHT);
                 controller.draw(ghost);
+
                 ghost.update(deltaTime);
                 controller.manageObstacles(deltaTime);
                 background.moveBg(ghost.getDisplacementPerFrame());
@@ -107,77 +103,84 @@ public class FlappyGhost extends Application {
                 controller.checkIfLost();
                 lastTime = now;
             }
-
         };
+
         timer.start();
 
-        //stage.initModality(Modality.WINDOW_MODAL);
-        // stage.initOwner(primaryStage);
-
-
-        String title = "Flappy Ghost";
-        primaryStage.setTitle(title);
+        // Affichage du jeu
+        primaryStage.setTitle("Flappy Ghost");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
         primaryStage.getIcons().add(icon);
 
-        Platform.runLater(() -> {
-            canvas.requestFocus();
-        });
-        scene.setOnMouseClicked((event) -> {
-            canvas.requestFocus();
-        });
+        // Focus automatique sur le canvas
+        Platform.runLater(() -> canvas.requestFocus());
 
+        // Refocus sur le canvas si l'utilisateur clique ailleurs sur la scène
+        scene.setOnMouseClicked((event) -> canvas.requestFocus());
 
+        // Demande au contrôleur de gérer les événements de l'interface
         controller.handleKeyboard(scene);
         controller.handlePause(leftPause);
         controller.handleDebug(centerCheckBox);
-
-
-
     }
 
-
+    /**
+     * Getter du contexte graphique
+     *
+     * @return le contexte graphique du canvas
+     */
     public GraphicsContext getContext() {
         return context;
     }
 
-
-    public FlappyGhost getFlappyGhost() {
-        return this;
-    }
-
-
+    /**
+     * Retourne un booléen de l'état du mode débug
+     *
+     * @return true si le jeu est en mode débug, false sinon
+     */
     public boolean isModeDebug() {
         return modeDebug;
     }
 
+    /**
+     * Active ou désactive le mode débug
+     *
+     * @param modeDebug true pour activer mode débug, false pour le désactiver
+     */
     public void setModeDebug(boolean modeDebug) {
         this.modeDebug = modeDebug;
+    }
+
+    /**
+     * Getter du score affiché à la droite du menu
+     *
+     * @return le score affiché à droite du menu
+     */
+    public Text getRightScore() {
+        return rightScore;
+    }
+
+    /**
+     * Getter de l'animation timer
+     *
+     * @return l'animation timer
+     */
+    public AnimationTimer getTimer() {
+        return timer;
+    }
+
+    /**
+     * Getter du canvas
+     *
+     * @return le canvas
+     */
+    public Canvas getCanvas() {
+        return canvas;
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-    public Text getRightScore() {
-        return rightScore;
-    }
-
-    public AnimationTimer getTimer() {
-        return timer;
-    }
-
-    public Canvas getCanvas() {
-        return canvas;
-    }
-
-    public CheckBox getCheckBox() {
-        return centerCheckBox;
-    }
-
-    // public Stage getStage() {
-    //      return stage;
-    //   }
 }

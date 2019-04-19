@@ -1,8 +1,9 @@
 /**
- * The type Obstacle sinus.
+ * Classe du type d'obstacle sinus
  */
 public class ObstacleSinus extends Obstacle {
-    private final double initY;
+
+    private final double initY; // Position initiale en Y
 
     /**
      * Instancie un nouvel obstacle sinus
@@ -12,9 +13,10 @@ public class ObstacleSinus extends Obstacle {
      * @param ghostSpeed la vitesse du fantome
      * @param radius     le rayon
      * @param number     le numero de l'image
+     * @param controller la référence vers le contrôleur
      */
-    public ObstacleSinus(double x, double y, double ghostSpeed, int radius, int number) {
-        super(x, y, ghostSpeed, 0, 0, radius, number);
+    public ObstacleSinus(double x, double y, double ghostSpeed, int radius, int number, Controller controller) {
+        super(x, y, ghostSpeed, 0, 0, radius, number, controller);
         initY = y;
     }
 

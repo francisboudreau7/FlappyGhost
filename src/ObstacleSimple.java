@@ -1,5 +1,5 @@
 /**
- * The type Obstacle simple.
+ * Classe du type d'obstacle simple
  */
 public class ObstacleSimple extends Obstacle {
 
@@ -11,15 +11,14 @@ public class ObstacleSimple extends Obstacle {
      * @param ghostSpeed la vitesse du fantome
      * @param radius     le rayon de l'obstacle
      * @param number     le numero de l'image
+     * @param controller la référence vers le contrôleur
      */
-    public ObstacleSimple(double x, double y, double ghostSpeed, int radius, int number) {
-
-        super(x, y, ghostSpeed, 0, 0, radius, number);
-
+    public ObstacleSimple(double x, double y, double ghostSpeed, int radius, int number, Controller controller) {
+        super(x, y, ghostSpeed, 0, 0, radius, number, controller);
     }
 
     /**
-     * mets a jour l`objet
+     * Met à jour l`objet
      *
      * @param dt         le temps écoulé depuis la dernière update
      * @param ghostSpeed la vitesse du fantome
